@@ -1,0 +1,56 @@
+<!doctype html>
+<html ng-app="latApp">
+  <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.min.js"></script>
+    <script src="loan-amortization-table.js"></script>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <div ng-controller="LoanAmortizationTableController as loanAmortTableCntrl">
+        <form ng-submit="loanAmortTableCntrl.calculate()" class="form-inline">
+          <div class="form-group">
+            <div class="input-group">
+              <div class="input-group-addon">Amount ₹</div>
+              <input type="text" class="form-control" ng-model="loanAmortTableCntrl.amount"  size="30"
+                     placeholder="Amount of money to borrow">
+            </div>
+            <div class="input-group">
+              <input type="text" class="form-control text-right" ng-model="loanAmortTableCntrl.interestRate"  size="30"
+                     placeholder="Annual percentage rate (APR)">
+              <div class="input-group-addon">% APR</div>
+            </div>
+             <div class="input-group">
+              <input type="text" class="form-control text-right" ng-model="loanAmortTableCntrl.numberOfMonths"  size="30"
+                     placeholder="Number of months">
+              <div class="input-group-addon">Month(s)</div>
+            </div>
+            <input class="btn btn-primary" type="submit" value="Calculate">
+          </div>
+        </form>
+        <br>
+          <table class="table table-hover table-striped">
+            <tr>
+              <th>Month #</th>
+              <th>Payment</th>
+              <th>Principal</th>
+              <th>Intrest</th>
+              <th>Remaining Principal</th>
+            </tr>
+            <tr ng-repeat="periodicPayment in loanAmortTableCntrl.loanAmortTable">
+              <td><span>#{{periodicPayment.paymentNumber}}</span></td>
+              <td><span>₹{{periodicPayment.payment}}</span></td>
+              <td><span>₹{{periodicPayment.principalPayment}}</span></td>
+              <td><span>₹{{periodicPayment.interest}}</span></td>
+              <td><span>₹{{periodicPayment.principal}}</span></td>
+            </tr>
+          </table>
+        </div>
+    </div>
+  </body>
+</html>
