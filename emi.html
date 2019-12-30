@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="latApp">
 
 <head>
     <meta charset="UTF-8">
@@ -9,13 +9,21 @@
     <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
     <!-- Title -->
-    <title>About Bank</title>
+    <title>Loan EMI Calculator</title>
 
     <!-- Favicon -->
     <link rel="icon" href="img/core-img/favicon.ico">
 
     <!-- Stylesheet -->
     <link rel="stylesheet" href="style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.min.js"></script>
+    <script src="loan-amortization-table.js"></script>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
 </head>
 
@@ -109,11 +117,11 @@
             <div class="row h-100 align-items-center">
                 <div class="col-12">
                     <div class="breadcrumb-content">
-                        <h2>About Bank</h2>
+                        <h2>Loan EMI Calculator</h2>
                         <nav aria-label="breadcrumb">
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">About Bank</li>
+                                <li class="breadcrumb-item active" aria-current="page">Loan EMI Calculator</li>
                             </ol>
                         </nav>
                     </div>
@@ -123,47 +131,63 @@
     </section>
     <!-- ##### Breadcrumb Area End ##### -->
 
-    <!-- ##### About Area Start ###### -->
-    <section class="about-area section-padding-100-0">
+    <!-- ##### Services Area Start ###### -->
+    <section class="services-area section-padding-100-0">
         <div class="container">
-            <div class="row align-items-center">
-                <div class="col-12 col-md-6">
-                    <div class="about-content mb-100">
-                        <!-- Section Heading -->
-                        <div class="section-heading">
-                            <div class="line"></div>
-                            <p>About Bank</p>
-                            <h2>"Sardar Patel Sarafi Mandali Limited"</h2>
-                        </div>
-                        <h6 class="mb-4">People's Society in Real Sense</h6>
-                        <p class="mb-0">"Sardar Patel Sarafi Mandali Limited" is in people's service since 2009. The main purpose of the Co-op Society is to provide required support to people in need. And to provide Employment to Build better future. Giving Something back to Society is always our main motive.
-                        </p>
-                    </div>
-                </div>
-                <div class="col-12 col-md-6">
-                    <div class="about-thumbnail mb-100">
-                        <img src="img/bg-img/carousel/2.jpg" alt="">
-                    </div>
-                </div>
-            </div>
             <div class="row">
                 <div class="col-12">
                     <!-- Section Heading -->
                     <div class="section-heading text-center mb-100">
                         <div class="line"></div>
-                        <p>Take look at our</p>
-                        <h2>Board of Directors</h2>
-                        <br/><br/>
-                        <img src="img/bg-img/0002.jpg"/>
+                        <p>Take a look at our</p>
+                        <h2>Calculate Monthly EMI of Your Loan</h2>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
-    <!-- ##### About Area End ###### -->
-    
-
-
+        </section>
+            <div class="container">
+                <div ng-controller="LoanAmortizationTableController as loanAmortTableCntrl">
+                  <form ng-submit="loanAmortTableCntrl.calculate()" class="form-inline">
+                    <div class="form-group">
+                      <div class="input-group">
+                        <div class="input-group-addon">Amount ₹</div>
+                        <input type="text" class="form-control" ng-model="loanAmortTableCntrl.amount"  size="30"
+                               placeholder="Amount of money to borrow">
+                      </div>
+                      <div class="input-group">
+                        <input type="text" class="form-control text-right" ng-model="loanAmortTableCntrl.interestRate"  size="30"
+                               placeholder="Annual percentage rate (APR)">
+                        <div class="input-group-addon">% APR</div>
+                      </div>
+                       <div class="input-group">
+                        <input type="text" class="form-control text-right" ng-model="loanAmortTableCntrl.numberOfMonths"  size="30"
+                               placeholder="Number of months">
+                        <div class="input-group-addon">Month(s)</div>
+                      </div>
+                      <input class="btn btn-primary" type="submit" value="Calculate">
+                    </div>
+                  </form>
+                  <br>
+                    <table class="table table-hover table-striped">
+                      <tr>
+                        <th>Month #</th>
+                        <th>Payment</th>
+                        <th>Principal</th>
+                        <th>Intrest</th>
+                        <th>Remaining Principal</th>
+                      </tr>
+                      <tr ng-repeat="periodicPayment in loanAmortTableCntrl.loanAmortTable">
+                        <td><span>#{{periodicPayment.paymentNumber}}</span></td>
+                        <td><span>₹{{periodicPayment.payment}}</span></td>
+                        <td><span>₹{{periodicPayment.principalPayment}}</span></td>
+                        <td><span>₹{{periodicPayment.interest}}</span></td>
+                        <td><span>₹{{periodicPayment.principal}}</span></td>
+                      </tr>
+                    </table>
+                  </div>
+              </div>
+              <br/>
+              <br/>
     <!-- ##### Footer Area Start ##### -->
     <footer class="footer-area section-padding-100-0">
         <div class="container">
